@@ -48,6 +48,9 @@
         @include('admin.nav.header')
         <!-- partial -->
         @yield('admin')
+        @yield('car')
+        @yield('car_list')
+        @yield('add_driver_to_car')
 
         <!-- partial -->
 

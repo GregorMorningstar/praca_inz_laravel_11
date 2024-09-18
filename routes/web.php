@@ -25,6 +25,11 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin/dashboard');
     Route::get('admin/logout',[AdminController::class, 'AdminLogOut'])->name('admin.logout');
+    Route::get('car/add',[AdminController::class, 'AdminAddCar'])->name('car/add');
+    Route::post('car/add', [AdminController::class, 'CarStore'])->name('car/addStore');  // Zapisuje dane z formularza
+
+    Route::get('car/list',[AdminController::class, 'AdminListCar'])->name('car/list');
+    Route::get('car/add-driver-to-car',[AdminController::class, 'AdminAddCarToDriver'])->name('car/add-driver');
 });
 
 Route::middleware(['auth', 'role:dispatcher'])->group(function () {
@@ -33,9 +38,18 @@ Route::middleware(['auth', 'role:dispatcher'])->group(function () {
 
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/dashboard', [UserController::class, 'UserDashboard'])->name('user/dashboard');
+    Route::get('user/logout',[UserController::class, 'UserLogOut'])->name('user.logout');
+    Route::get('user/create/order',[UserController::class, 'CreateNewOrder'])->name('user/create/order');
+    Route::post('user/create/order', [UserController::class, 'AddNewOrder'])->name('orders.store');
+    Route::get('user/all/order',[UserController::class,'AllOrder'])->name('user/all/order');
+
 });
 
 
 Route::middleware(['auth', 'role:driver'])->group(function () {
     Route::get('driver/dashboard', [DriverController::class, 'DriverDashboard'])->name('driver/dashboard');
 });
+
+Route::get('admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
+Route::post('admin/login', [AdminController::class, 'AdminLoginProcess'])->name('admin.login');
+

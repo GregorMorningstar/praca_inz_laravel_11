@@ -16,27 +16,34 @@
                 <li class="nav-item">
                     <a href="{{route('admin/dashboard')}}" class="nav-link">
                         <i class="link-icon" data-feather="shield"></i>
-                        <span class="link-title">Admin Dashboard</span>
+                        <span class="link-title">Spedytor Dashboard</span>
                     </a>
                 </li>
 
-                <li class="nav-item nav-category">Samochody</li>
+                <li class="nav-item nav-category">Zlecenia</li>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/apps/calendar.html" class="nav-link">
+                        <i class="link-icon" data-feather="calendar"></i>
+                        <span class="link-title">Nowe Zlecenie</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
-                        <i class="link-icon" data-feather="truck"></i>
-                        <span class="link-title">Flota</span>
+                        <i class="link-icon" data-feather="list"></i>
+                        <span class="link-title">Moje Zlecenia</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
                     <div class="collapse" id="emails">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="{{route('car/list')}}" class="nav-link">Lista Samochodów</a>
+                                <a href="pages/email/inbox.html" class="nav-link">Aktywne</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('car/add')}}" class="nav-link">Dodaj Samochód</a>
+                                <a href="pages/email/read.html" class="nav-link">Złożone</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('car/add-driver')}}" class="nav-link">Przypisz Kierowce</a>
+                                <a href="pages/email/compose.html" class="nav-link">Historia </a>
                             </li>
                         </ul>
                     </div>
@@ -47,23 +54,23 @@
                         <span class="link-title">Calendar</span>
                     </a>
                 </li>
-                <li class="nav-item nav-category">Pracownicy</li>
+                <li class="nav-item nav-category">Kierowcy</li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#advancedUI" role="button" aria-expanded="false" aria-controls="advancedUI">
                         <i class="link-icon" data-feather="user"></i>
-                        <span class="link-title">Pracownicy</span>
+                        <span class="link-title">Zlecenia Kierowców</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
                     <div class="collapse" id="advancedUI">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="pages/advanced-ui/cropper.html" class="nav-link">Spedytorzy</a>
+                                <a href="pages/advanced-ui/cropper.html" class="nav-link">Przypisane zlecenia</a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Kierowcy</a>
+                                <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Status zlecenia</a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/advanced-ui/sortablejs.html" class="nav-link">Edycja Roli</a>
+                                <a href="pages/advanced-ui/sortablejs.html" class="nav-link">Zmiana kierowcy</a>
                             </li>
                             <li class="nav-item">
                                 <a href="pages/advanced-ui/sweet-alert.html" class="nav-link">Wszystcy Pracownicy</a>
@@ -71,13 +78,8 @@
                         </ul>
                     </div>
                 </li>
+            </ul>
                       </ul>
         </div>
     </nav>
-    <nav class="settings-sidebar">
-        <div class="sidebar-body">
-            <a href="#" class="settings-sidebar-toggler">
-                <i data-feather="settings"></i>
-            </a>
-                 </div>
-    </nav>
+

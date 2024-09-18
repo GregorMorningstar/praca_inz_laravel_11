@@ -40,16 +40,15 @@
 <body>
 <div class="main-wrapper">
 
-    @include('user.nav.sidebar')
+    @include('driver.nav.sidebar')
     <!-- partial -->
-    @include('user.nav.header')
+    @include('driver.nav.header')
     <div class="page-wrapper">
 
 
         <!-- partial -->
 
-        @yield('user')
-        @yield('order')
+        @yield('driver')
         <!-- partial -->
 
     </div>
@@ -57,7 +56,7 @@
 
 
 
-@include('user.nav.footer')
+@include('driver.nav.footer')
 
 <!-- core:js -->
 <script src="{{asset('assets/vendors/core/core.js')}}"></script>
