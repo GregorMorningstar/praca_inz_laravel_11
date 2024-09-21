@@ -50,6 +50,7 @@
 
         @yield('user')
         @yield('order')
+        @yield('user_orders')
         <!-- partial -->
 
     </div>

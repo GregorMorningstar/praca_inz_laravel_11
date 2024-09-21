@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+    protected $dates = ['loading_date', 'delivery_date'];
 
     protected $fillable = [
         'place_of_loading',
@@ -28,4 +29,5 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

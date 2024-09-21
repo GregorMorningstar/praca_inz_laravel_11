@@ -132,45 +132,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h5>Wszystkie Zlecenia</h5>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th>Miejsce Załadunku</th>
-                                            <th>Data</th>
-                                            <th>Miejsce Dostawy</th>
-                                            <th>Data</th>
-                                            <th>Waga</th>
-                                            <th>Długość</th>
-                                            <th>Kilometrów</th>
-                                            <th>Koszt</th>
-                                            <th>Zleceniodawca</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @forelse($orders as $order)
-                                            <tr>
-                                                <td>{{ $order->place_of_loading }}</td>
-                                                <td>{{ $order->loading_date->format('Y-m-d') }}</td>
-                                                <td>{{ $order->place_of_delivery }}</td>
-                                                <td>{{ $order->delivery_date->format('Y-m-d') }}</td>
-                                                <td>{{ $order->cargo_weight }}</td>
-                                                <td>{{ $order->cargo_length }}</td>
-                                                <td>{{ $order->mileage }}</td>
-                                                <td>{{ $order->cost }}</td>
-                                                <td>{{ $order->user->name }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="9">Brak zleceń do wyświetlenia.</td>
-                                            </tr>
-                                        @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

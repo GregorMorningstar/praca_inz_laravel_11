@@ -42,6 +42,10 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/create/order',[UserController::class, 'CreateNewOrder'])->name('user/create/order');
     Route::post('user/create/order', [UserController::class, 'AddNewOrder'])->name('orders.store');
     Route::get('user/all/order',[UserController::class,'AllOrder'])->name('user/all/order');
+     Route::get('user/my-order',[UserController::class,'My_order'])->name('user/my-order');
+    Route::get('/user/order/completed', [UserController::class, 'completedOrders'])->name('user.order.completed');
+    Route::get('/user/order/in_progress', [UserController::class, 'in_progresOrders'])->name('user/order/in_progress');
+
 
 });
 
@@ -51,5 +55,4 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
 });
 
 Route::get('admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
-Route::post('admin/login', [AdminController::class, 'AdminLoginProcess'])->name('admin.login');
 

@@ -10,7 +10,9 @@ class UserController extends Controller
 {
     public function UserDashboard()
     {
+        // Retrieve all orders with the associated user
         $orders = Order::with('user')->get();
+        // Pass the orders to the view
         return view('user.index', compact('orders'));
 
     }
@@ -60,6 +62,34 @@ public function CreateNewOrder()
 
     public function AllOrder()
     {
-        return view('user.index');
-}
+        // Pobieramy wszystkie zlecenia
+        $orders = Order::paginate(1);
+//dd($orders);
+        // Przekazujemy zmienną 'orders' do widoku
+        return view('user.all_order', compact('orders'));
+    }
+    public function My_order()
+    {
+        $orders = Order::where('user_id', Auth::id())->get();
+
+        return view('user.user_order', compact('orders'));
+    }
+
+
+    public function completedOrders()
+    {
+        $completedOrders = Order::where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->paginate(10); // Liczba wyników na stronę
+
+        return view('user.completed_orders', compact('completedOrders'));
+    }
+    public function in_progresOrders()
+    {
+        $in_progresOrders = Order::where('user_id', Auth::id())
+            ->where('status', 'in_progress')
+            ->paginate(10); // Liczba wyników na stronę
+        return view('user.in_progress_orders', compact('in_progresOrders'));
+    }
+
 }

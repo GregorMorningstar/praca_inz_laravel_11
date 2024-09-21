@@ -43,13 +43,13 @@
                     <div class="collapse" id="emails">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="pages/email/inbox.html" class="nav-link">Aktywne</a>
+                                <a href="{{route('user/my-order')}}" class="nav-link">Wszystkie zlecenia</a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/email/read.html" class="nav-link">Złożone</a>
+                                <a href="{{route('user/order/in_progress')}}" class="nav-link">Przyjęte do Realizacji</a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/email/compose.html" class="nav-link">Historia </a>
+                                <a href="{{ route('user.order.completed') }}" class="nav-link">Zlecenia zakończone</a>
                             </li>
                         </ul>
                     </div>
