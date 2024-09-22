@@ -57,27 +57,18 @@
                     <div class="collapse" id="advancedUI">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="pages/advanced-ui/cropper.html" class="nav-link">Spedytorzy</a>
+                                <a href="{{route('dispatcher/list')}}" class="nav-link">Spedytorzy</a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Kierowcy</a>
+                                <a href="{{route('driver/list')}}" class="nav-link">Kierowcy</a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/advanced-ui/sortablejs.html" class="nav-link">Edycja Roli</a>
+                                <a href="{{route('role/edit')}}" class="nav-link">Edycja Roli</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="pages/advanced-ui/sweet-alert.html" class="nav-link">Wszystcy Pracownicy</a>
-                            </li>
+
                         </ul>
                     </div>
                 </li>
                       </ul>
         </div>
-    </nav>
-    <nav class="settings-sidebar">
-        <div class="sidebar-body">
-            <a href="#" class="settings-sidebar-toggler">
-                <i data-feather="settings"></i>
-            </a>
-                 </div>
     </nav>

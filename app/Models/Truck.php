@@ -18,6 +18,7 @@ class Truck extends Model
         'height',
         'vin',
         'driver_id',
+        'is_active'
     ];
 
     // Relacja: jeden kierowca może mieć jeden samochód
@@ -25,4 +26,11 @@ class Truck extends Model
     {
         return $this->belongsTo(User::class, 'driver_id');
     }
+    public function drivers()
+    {
+        return $this->belongsToMany(User::class, 'driver_truck')
+            ->withPivot('started_driving_at', 'ended_driving_at', 'starting_mileage', 'ending_mileage', 'fuel_consumed')
+            ->withTimestamps();
+    }
+
 }

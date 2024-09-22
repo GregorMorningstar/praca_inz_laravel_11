@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('height', 8, 2);             // Wysokość
             $table->string('vin')->unique();             // Numer VIN
             $table->unsignedBigInteger('driver_id')->nullable(); // Klucz obcy do usera
+            $table->enum('status',['active','inactive'])->default('inactive');
             $table->timestamps();
 
             // Relacja z tabelą users (rola kierowca)

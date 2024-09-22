@@ -59,5 +59,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
+    public function trucks()
+    {
+        return $this->belongsToMany(Truck::class, 'driver_truck')
+            ->withPivot('started_driving_at', 'ended_driving_at', 'starting_mileage', 'ending_mileage', 'fuel_consumed')
+            ->withTimestamps();
+    }
 }

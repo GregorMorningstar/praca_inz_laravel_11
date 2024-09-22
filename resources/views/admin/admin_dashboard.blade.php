@@ -51,6 +51,9 @@
         @yield('car')
         @yield('car_list')
         @yield('add_driver_to_car')
+        @yield('dispatcher_list')
+        @yield('driver_list')
+        @yield('role')
 
         <!-- partial -->
 
