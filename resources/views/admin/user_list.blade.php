@@ -1,8 +1,8 @@
 @extends('admin.admin_dashboard')
-@section('dispatcher_list')
+@section('user_list')
     <div class="page-content">
         <div class="d-flex justify-content-center">
-            {{ $dispatchers->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}
+            {{ $users->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}
         </div>
         <table class="table">
             <thead>
@@ -16,20 +16,18 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($dispatchers as $dispatcher)
+            @foreach($users as $user)
                 <tr>
-                    <td>{{ $dispatcher->id }}</td>
-                    <td>{{ $dispatcher->name }}</td>
-                    <td>{{ $dispatcher->username }}</td>
-                    <td>{{ $dispatcher->email }}</td>
-                    <td>{{ $dispatcher->phone }}</td>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->phone }}</td>
                     <td>
                         <a href="#" class="btn btn-primary btn-sm">Edytuj</a>
                         {{--                        @if($driver->hasTruck())--}}
-                        <a href="#" class="btn btn-danger btn-sm">Usuń samochód</a>
-                        {{--                        @else--}}
-                        <a href="#" class="btn btn-secondary btn-sm">Przypisz samochód</a>
-                        {{--                        @endif--}}
+                        <a href="#" class="btn btn-danger btn-sm">Usuń</a>
+
                     </td>
                 </tr>
                 </tr>
@@ -38,5 +36,4 @@
         </table>
 
     </div>
-
 @endsection

@@ -32,7 +32,7 @@ class AdminController extends Controller
 
     public function AdminListCar()
     {
-        $trucks = Truck::with('driver')->get(); // Pobiera wszystkie ciężarówki z przypisanymi kierowcami
+        $trucks = Truck::with('driver')->paginate(5); // Pobiera wszystkie ciężarówki z przypisanymi kierowcami
         return view('admin.car_list', compact('trucks'));
 
     }
@@ -66,13 +66,20 @@ class AdminController extends Controller
 //metody z spedytorami
     public function dispatcher_list()
     {
-        return view('admin.dispatcher_list');
+        $dispatchers = User::where('role', 'dispatcher')->paginate(5);
+        return view('admin.dispatcher_list',compact('dispatchers'));
     }
     //metody z kierowcami
     public function driver_list()
     {
-        $drivers = User::where('role', 'driver')->get();
-        return view('admin.driver_list',compact('drivers'));
+        $drivers = User::where('role', 'driver')->paginate(5); // Paginacja co 5
+        return view('admin.driver_list', compact('drivers'));
+    }
+    //metody z userami
+    public function user_list()
+    {
+        $users = User::where('role', 'user')->paginate(5); // Paginacja co 5
+        return view('admin.user_list', compact('users'));
     }
     //role
     public function role_edit()

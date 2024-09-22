@@ -34,6 +34,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('dispatcher/list',[AdminController::class,'dispatcher_list'])->name('dispatcher/list');
     //akcje z kierowcami
     Route::get('driver/list',[AdminController::class,'driver_list'])->name('driver/list');
+    //akcje z userami
+    Route::get('user/list',[AdminController::class,'user_list'])->name('users/list');
     //pozostale
     Route::get('role/edit',[AdminController::class,'role_edit'])->name('role/edit');
 });

@@ -63,6 +63,9 @@
                                 <a href="{{route('driver/list')}}" class="nav-link">Kierowcy</a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{route('users/list')}}" class="nav-link">Użytkownicy</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{route('role/edit')}}" class="nav-link">Edycja Roli</a>
                             </li>
 

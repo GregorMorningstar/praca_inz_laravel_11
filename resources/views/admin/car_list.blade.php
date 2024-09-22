@@ -2,10 +2,13 @@
 @section('car_list')
     <div class="page-content">
 
-        <!-- Example table -->
+        <div class="d-flex justify-content-center">
+            {{ $trucks->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}
+        </div>
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Nr Rejestracyjny</th>
                 <th>Marka</th>
                 <th>Rok Produkcji</th>
@@ -20,6 +23,7 @@
             <tbody>
             @foreach($trucks as $truck)
                 <tr>
+                    <td>{{$truck->id}}</td>
                     <td>{{ $truck->license_plate }}</td>
                     <td>{{ $truck->brand }}</td>
                     <td>{{ \Carbon\Carbon::parse($truck->production_year)->format('Y') }}</td>

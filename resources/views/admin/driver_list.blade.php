@@ -1,9 +1,13 @@
 @extends('admin.admin_dashboard')
 @section('driver_list')
     <div class="page-content">
+        <div class="d-flex justify-content-center">
+            {{ $drivers->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}
+        </div>
         <table class="table">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Imię</th>
                 <th>Nazwa użytkownika</th>
                 <th>Email</th>
@@ -14,6 +18,7 @@
             <tbody>
             @foreach($drivers as $driver)
                 <tr>
+                    <td>{{ $driver->id }}</td>
                     <td>{{ $driver->name }}</td>
                     <td>{{ $driver->username }}</td>
                     <td>{{ $driver->email }}</td>

@@ -54,6 +54,7 @@
         @yield('dispatcher_list')
         @yield('driver_list')
         @yield('role')
+        @yield('user_list')
 
         <!-- partial -->
 
