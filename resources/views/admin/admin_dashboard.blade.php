@@ -50,6 +50,7 @@
         @yield('admin')
         @yield('car')
         @yield('car_list')
+        @yield('assign_car')
         @yield('add_driver_to_car')
         @yield('dispatcher_list')
         @yield('driver_list')

@@ -30,6 +30,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('car/add', [AdminController::class, 'CarStore'])->name('car/addStore');  // Zapisuje dane z formularza
     Route::get('car/list',[AdminController::class, 'AdminListCar'])->name('car/list');
     Route::get('car/add-driver-to-car',[AdminController::class, 'AdminAddCarToDriver'])->name('car/add-driver');
+    Route::get('/assign-car/{id}', [AdminController::class, 'carAssing'])->name('car.assign');
+    Route::post('/assign-car/{id}', [AdminController::class, 'storeCar'])->name('car.store');
+    Route::post('/remove-car/{id}', [AdminController::class, 'carRemove'])->name('car.remove');
+
+
     //akcje z spedytorami
     Route::get('dispatcher/list',[AdminController::class,'dispatcher_list'])->name('dispatcher/list');
     //akcje z kierowcami

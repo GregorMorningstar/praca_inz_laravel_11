@@ -24,12 +24,11 @@
                     <td>{{ $driver->email }}</td>
                     <td>{{ $driver->phone }}</td>
                     <td>
-                        <a href="#" class="btn btn-primary btn-sm">Edytuj</a>
-{{--                        @if($driver->hasTruck())--}}
-                            <a href="#" class="btn btn-danger btn-sm">Usuń samochód</a>
-{{--                        @else--}}
+                        @if($driver->truck)
+                            <a href="{{ route('car.remove', $driver->truck->id) }}" class="btn btn-danger btn-sm">Usuń samochód</a>
+                        @elseif(!$driver->truck)
                             <a href="#" class="btn btn-secondary btn-sm">Przypisz samochód</a>
-{{--                        @endif--}}
+                        @endif
                     </td>
                 </tr>
                 </tr>

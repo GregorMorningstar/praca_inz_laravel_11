@@ -16,7 +16,6 @@ class AdminController extends Controller
 
     public function AdminLogOut(Request $request)
     {
-        //dd($request);
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -24,7 +23,7 @@ class AdminController extends Controller
         return redirect('/login');
     }
 
-//metody z samochodami
+    // Methods related to cars
     public function AdminAddCar()
     {
         return view('admin.add_car');
@@ -32,14 +31,15 @@ class AdminController extends Controller
 
     public function AdminListCar()
     {
-        $trucks = Truck::with('driver')->paginate(5); // Pobiera wszystkie ciężarówki z przypisanymi kierowcami
+        $trucks = Truck::with('driver')->paginate(5);
         return view('admin.car_list', compact('trucks'));
-
     }
 
     public function AdminAddCarToDriver()
     {
-        return view('admin.add_car_to_driver');
+        $drivers = User::where('role', 'driver')->with('truck')->paginate(10);
+        $allTrucks = Truck::all();
+        return view('admin.add_car_to_driver', compact('drivers', 'allTrucks'));
     }
 
     public function CarStore(Request $request)
@@ -56,52 +56,71 @@ class AdminController extends Controller
             'driver_id' => 'nullable|exists:users,id'
         ]);
 
-
-        // Zapis samochodu w bazie
         Truck::create($request->all());
 
         return redirect()->route('car/list')->with('success', 'Truck added successfully');
     }
 
-//metody z spedytorami
+    // Methods related to dispatchers
     public function dispatcher_list()
     {
         $dispatchers = User::where('role', 'dispatcher')->paginate(5);
-        return view('admin.dispatcher_list',compact('dispatchers'));
+        return view('admin.dispatcher_list', compact('dispatchers'));
     }
-    //metody z kierowcami
+
+    // Methods related to drivers
     public function driver_list()
     {
-        $drivers = User::where('role', 'driver')->paginate(5); // Paginacja co 5
+        $drivers = User::where('role', 'driver')->paginate(5);
         return view('admin.driver_list', compact('drivers'));
     }
-    //metody z userami
+
+    public function carAssing($id)
+    {
+        $driver = User::findOrFail($id);
+        $activeCars = Truck::where('status', 'inactive')->get();
+               return view('admin.assing_car', compact('driver', 'activeCars'));
+    }
+
+    public function storeCar(Request $request, $id)
+    {
+        $request->validate([
+            'car_id' => 'required|exists:trucks,id',
+        ]);
+
+        $driver = User::findOrFail($id);
+        $truck = Truck::findOrFail($request->car_id); // Use findOrFail for better error handling
+        $truck->status = 'active';
+        $truck->driver_id = $driver->id;
+        $truck->save();
+
+        return redirect()->route('car/list')->with('success', 'Samochód został przypisany do kierowcy.');
+    }
+
+    // Methods related to users
     public function user_list()
     {
-        $users = User::where('role', 'user')->paginate(5); // Paginacja co 5
+        $users = User::where('role', 'user')->paginate(5);
         return view('admin.user_list', compact('users'));
     }
-    //role
+
+    // Roles
     public function role_edit()
     {
         return view('admin.role_edit');
-
     }
-    public function assignTruck(Request $request, $userId)
+
+    public function carRemove(Request $request, $carId)
     {
-        $truck = Truck::findOrFail($request->truck_id);
+        // Find the truck by ID
+        $truck = Truck::findOrFail($carId);
 
-        // Dodaj nowy rekord w tabeli łączącej
-        $user = User::findOrFail($userId);
-        $user->trucks()->attach($truck->id, [
-            'started_driving_at' => $request->started_driving_at,
-            'ending_mileage' => null, // Możesz ustawić to później
-            'fuel_consumed' => $request->fuel_consumed,
-            'starting_mileage' => $truck->mileage, // Przebieg na start z modelu Truck
-        ]);
-
-        return redirect()->route('drivers.index')->with('success', 'Truck assigned successfully.');
+        // Update the truck's status and driver ID
+        $truck->status = 'inactive';
+        $truck->driver_id = null;
+        $truck->save(); // Save changes to the database
+        // Redirect with success message
+        return redirect()->route('car/list')->with('success', 'Samochód został usunięty z kierowcy.');
     }
 
 }
-

@@ -32,7 +32,14 @@
                     <td>{{ $truck->length }}</td>
                     <td>{{ $truck->height }}</td>
                     <td>{{ $truck->vin }}</td>
-                    <td>{{ $truck->driver ? $truck->driver->name : 'Brak' }}</td>
+                    <td>{{ $truck->driver ? $truck->driver->name : 'Brak' }}
+
+                        @if($truck->driver)
+                            <form action="{{ route('car.remove', $truck->id) }}" method="POST" style="display:inline;"> <!-- Corrected syntax -->
+                                @csrf
+                                <button type="submit" class="btn btn-danger">X</button>
+                            </form>@endif
+                      </td>
                 </tr>
             @endforeach
             </tbody>
