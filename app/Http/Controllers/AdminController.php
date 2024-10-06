@@ -38,6 +38,7 @@ class AdminController extends Controller
     public function AdminAddCarToDriver()
     {
         $drivers = User::where('role', 'driver')->with('truck')->paginate(10);
+        //dd($drivers);
         $allTrucks = Truck::all();
         return view('admin.add_car_to_driver', compact('drivers', 'allTrucks'));
     }
@@ -71,7 +72,8 @@ class AdminController extends Controller
     // Methods related to drivers
     public function driver_list()
     {
-        $drivers = User::where('role', 'driver')->paginate(5);
+        // Pobierz kierowców wraz z ich przypisanymi samochodami
+        $drivers = User::where('role', 'driver')->with('truck')->paginate(5);
         return view('admin.driver_list', compact('drivers'));
     }
 
@@ -103,12 +105,37 @@ class AdminController extends Controller
         $users = User::where('role', 'user')->paginate(5);
         return view('admin.user_list', compact('users'));
     }
+    public function destroyUser($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            $user->delete();
+            return redirect()->route('users/list')->with('success', 'Konto użytkownika zostało usunięte.');
+        } else {
+            return redirect()->route('users/list')->with('error', 'Nie znaleziono użytkownika.');
+        }
+    }
 
     // Roles
     public function role_edit()
     {
-        return view('admin.role_edit');
+        $user = User::paginate(5);
+     //   dd($user);
+        return view('admin.role_edit', compact('user'));
     }
+    public function updateRole(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Zaktualizuj rolę użytkownika
+        $user->role = $request->role;
+       // dd($user);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Rola użytkownika '.$user->username.'została zaktualizowana na '.$user->role.' ');
+    }
+
 
     public function carRemove(Request $request, $carId)
     {

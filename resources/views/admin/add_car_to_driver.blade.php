@@ -22,7 +22,7 @@
             @foreach($drivers as $driver)
                 <tr>
                     <td>{{ $driver->id }}</td>
-                    <td>{{ $driver->user->name ?? 'Brak' }}</td> <!-- Show the user's name -->
+                    <td>{{ $driver->username ?? 'Brak' }}</td> <!-- Show the user's name -->
                     <td>{{ $driver->truck ? $driver->truck->license_plate : 'Brak' }}</td> <!-- Show license plate -->
                     <td>{{ $driver->truck ? $driver->truck->status : 'Brak' }}</td>
                     <td>{{ $driver->name }}</td> <!-- Show driver's name -->

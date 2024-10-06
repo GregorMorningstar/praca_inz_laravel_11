@@ -12,7 +12,7 @@
                 <th>Nazwa użytkownika</th>
                 <th>Email</th>
                 <th>Telefon</th>
-                <th>Akcje</th> <!-- Nowa kolumna na akcje -->
+                <th>Nr Rej</th>
             </tr>
             </thead>
             <tbody>
@@ -23,11 +23,14 @@
                     <td>{{ $driver->username }}</td>
                     <td>{{ $driver->email }}</td>
                     <td>{{ $driver->phone }}</td>
+{{--                   <td>{{ $driver->truck ? $driver->truck->license_plate : 'Brak' }}</td>--}}
                     <td>
-                        @if($driver->truck)
-                            <a href="{{ route('car.remove', $driver->truck->id) }}" class="btn btn-danger btn-sm">Usuń samochód</a>
-                        @elseif(!$driver->truck)
-                            <a href="#" class="btn btn-secondary btn-sm">Przypisz samochód</a>
+                        @if(!$driver->truck)
+                            <a href="{{ route('car.assign', $driver->id) }}" class="btn btn-primary">
+                                Przypisz samochód
+                            </a>
+                        @else
+                            {{ $driver->truck->license_plate }}
                         @endif
                     </td>
                 </tr>

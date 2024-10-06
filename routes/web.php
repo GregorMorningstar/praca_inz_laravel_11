@@ -41,6 +41,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('driver/list',[AdminController::class,'driver_list'])->name('driver/list');
     //akcje z userami
     Route::get('user/list',[AdminController::class,'user_list'])->name('users/list');
+    Route::delete('/user/{id}', [AdminController::class, 'destroyUser'])->name('user.destroy');
+    Route::patch('/admin/user/{id}/role', [AdminController::class, 'updateRole'])->name('admin.update_role');
+
     //pozostale
     Route::get('role/edit',[AdminController::class,'role_edit'])->name('role/edit');
 });
