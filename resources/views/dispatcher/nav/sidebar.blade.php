@@ -1,7 +1,7 @@
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar">
         <div class="sidebar-header">
-            <a href="{{route('admin/dashboard')}}" class="sidebar-brand">
+            <a href="{{route('dispatcher/dashboard')}}" class="sidebar-brand">
                GT
             </a>
             <div class="sidebar-toggler not-active">
@@ -14,7 +14,7 @@
             <ul class="nav">
                 <li class="nav-item nav-category">Main</li>
                 <li class="nav-item">
-                    <a href="{{route('admin/dashboard')}}" class="nav-link">
+                    <a href="{{route('dispatcher/dashboard')}}" class="nav-link">
                         <i class="link-icon" data-feather="shield"></i>
                         <span class="link-title">Spedytor Dashboard</span>
                     </a>
@@ -23,7 +23,7 @@
                 <li class="nav-item nav-category">Zlecenia</li>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/apps/calendar.html" class="nav-link">
+                    <a href="{{route('dispatcher/dashboard')}}" class="nav-link">
                         <i class="link-icon" data-feather="calendar"></i>
                         <span class="link-title">Nowe Zlecenie</span>
                     </a>
@@ -37,13 +37,13 @@
                     <div class="collapse" id="emails">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="pages/email/inbox.html" class="nav-link">Aktywne</a>
+                                <a href="{{route('spedytor/order/active')}}" class="nav-link">Aktywne</a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/email/read.html" class="nav-link">Złożone</a>
+                                <a href="{{route('spedytor/order/canceled')}}" class="nav-link">Wycofane</a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/email/compose.html" class="nav-link">Historia </a>
+                                <a href="{{route('spedytor/order/history')}}" class="nav-link">Historia </a>
                             </li>
                         </ul>
                     </div>

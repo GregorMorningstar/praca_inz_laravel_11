@@ -32,5 +32,9 @@ class Truck extends Model
             ->withPivot('started_driving_at', 'ended_driving_at', 'starting_mileage', 'ending_mileage', 'fuel_consumed')
             ->withTimestamps();
     }
-
+    //relacja z tabela lacznikowa
+    public function driverTrucks()
+    {
+        return $this->hasMany(DriverTruck::class);
+    }
 }

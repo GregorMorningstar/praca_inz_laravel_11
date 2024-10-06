@@ -59,6 +59,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    //relacja z tabela lacznikowa
+    public function driverTrucks()
+    {
+        return $this->hasMany(DriverTruck::class);
+    }
     public function trucks()
     {
         return $this->belongsToMany(Truck::class, 'driver_truck')

@@ -30,4 +30,9 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    //relacja z tabela lacznikowa
+    public function driverTrucks()
+    {
+        return $this->hasMany(DriverTruck::class);
+    }
 }

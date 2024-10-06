@@ -50,6 +50,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:dispatcher'])->group(function () {
     Route::get('spedytor/dashboard', [DispatcherController::class, 'DispatcherDashboard'])->name('dispatcher/dashboard');
+    Route::get('spedytor/order/{id}/przydziel',[DispatcherController::class,'AssingOrder'])->name('spedytor/przydziel');
+    Route::get('spedytor/order/{id}/cancel',[DispatcherController::class, 'OrderCancel'])->name('spedytor/order/cancel');
+    Route::get('spedytor/order/{id}/restored',[DispatcherController::class, 'OrderCancel'])->name('spedytor/order/restored');
+    Route::get('spedytor/order/driver/assign/{id}',[DispatcherController::class, 'AddingOrderToDriver'])->name('order/driver/assing');
+    Route::get('spedytor/order/active',[DispatcherController::class,'activeOrder'])->name('spedytor/order/active');
+    Route::get('spedytor/order/canceled',[DispatcherController::class,'canceledOrder'])->name('spedytor/order/canceled');
+    Route::post('spedytor//order/{id}/status/in_progress', [DispatcherController::class, 'changeInProgres'])->name('order/status/in_progress');
+
+    Route::get('spedytor/order/history',[DispatcherController::class,'historyOrder'])->name('spedytor/order/history');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -68,6 +77,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 Route::middleware(['auth', 'role:driver'])->group(function () {
     Route::get('driver/dashboard', [DriverController::class, 'DriverDashboard'])->name('driver/dashboard');
+
 });
 
 Route::get('admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
