@@ -77,7 +77,12 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 Route::middleware(['auth', 'role:driver'])->group(function () {
     Route::get('driver/dashboard', [DriverController::class, 'DriverDashboard'])->name('driver/dashboard');
-
+    Route::get('driver/order/{id}/get',[DriverController::class,'GetOrderByDriver'])->name('driver/order/{id}/get');
+    Route::post('driver/order/{id}/accept',[DriverController::class,'AcceptOrder'])->name('driver.order.accept');
+    Route::get('driver/order/in-progress',[DriverController::class,'InProgressOrder'])->name('driver.order.in_progress');
+    Route::get('driver/order/{id}/in-progress',[DriverController::class,'InProgressOrderDetal'])->name('driver.order.in_progress_detal');
+    Route::post('driver/order/{id}/in-progress', [DriverController::class, 'InProgressOrderDetal'])->name('driver.order.in_progress_detal');
+    Route::get('driver/order/history',[DriverController::class,'HistoryDriverOrder'])->name('driver.order.history');
 });
 
 Route::get('admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');

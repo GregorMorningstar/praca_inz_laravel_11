@@ -64,6 +64,16 @@ class DispatcherController extends Controller
         $id_driver = $request->input('driver_id');
         $user_id = $request->input('user_id');
 
+        // Sprawdź, czy rekord już istnieje
+        $existingRecord = DriverTruck::where('user_id', $user_id)
+            ->where('truck_id', $id_driver)
+            ->where('order_id', $order_id)
+            ->exists();
+
+        if ($existingRecord) {
+            return redirect()->back()->withErrors(['error' => 'Rekord już istnieje dla tego użytkownika, kierowcy i zlecenia.']);
+        }
+
         // Tworzenie nowego rekordu w tabeli driver_truck
         $driver_order = new DriverTruck();
         $driver_order->user_id = $user_id; // Zleceniodawca
