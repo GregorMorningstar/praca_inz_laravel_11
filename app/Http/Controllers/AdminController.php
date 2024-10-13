@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Truck;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,7 +12,13 @@ class AdminController extends Controller
 {
     public function AdminDashboard()
     {
-        return view('admin.index');
+        $pendingOrdersCount = Order::where('status', 'pending')->count();
+        $userCount = User::where('role', 'user')->count();
+        $carCount = Truck::get()->count();
+        $users = User::whereIn('role', ['driver', 'dispatcher'])->paginate(10);
+
+//dd($pendingOrdersCount);
+        return view('admin.index', compact('pendingOrdersCount','userCount','carCount','users'));
     }
 
     public function AdminLogOut(Request $request)

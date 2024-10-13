@@ -10,7 +10,7 @@
     <meta name="keywords"
           content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-    <title>Giełda Transportowa Admin Dashboard</title>
+    <title>Giełda Transportowa Driver Dashboard</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

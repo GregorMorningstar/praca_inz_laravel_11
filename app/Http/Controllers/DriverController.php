@@ -24,7 +24,14 @@ class DriverController extends Controller
 //dd($driverTrucks);
       return view('driver.index', compact('user','driverTrucks'));
   }
+    public function DriverLogOut(Request $request)
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
+        return redirect('/login');
+    }
     public function GetOrderByDriver($id)
     {
 
@@ -99,6 +106,14 @@ class DriverController extends Controller
 
     public function HistoryDriverOrder()
     {
-        return view('driver.history');
+        $truckId = Auth::id();
+        $driverTrucks = DriverTruck::where('truck_id', $truckId)
+            ->whereHas('order', function($query) {
+                $query->where('status', 'completed');
+            })
+            ->with('user','truck','order')
+            ->get();
+       // dd($driverTrucks);
+        return view('driver.history',compact('driverTrucks'));
 }
 }

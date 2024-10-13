@@ -10,9 +10,7 @@ class UserController extends Controller
 {
     public function UserDashboard()
     {
-        // Retrieve all orders with the associated user
-        $orders = Order::with('user')->get();
-        // Pass the orders to the view
+        $orders = Order::with('user')->paginate(10);
         return view('user.index', compact('orders'));
 
     }

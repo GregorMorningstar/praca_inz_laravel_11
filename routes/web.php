@@ -57,6 +57,7 @@ Route::middleware(['auth', 'role:dispatcher'])->group(function () {
     Route::get('spedytor/order/active',[DispatcherController::class,'activeOrder'])->name('spedytor/order/active');
     Route::get('spedytor/order/canceled',[DispatcherController::class,'canceledOrder'])->name('spedytor/order/canceled');
     Route::post('spedytor//order/{id}/status/in_progress', [DispatcherController::class, 'changeInProgres'])->name('order/status/in_progress');
+    Route::get('spedytor/logout',[DispatcherController::class, 'DispatcherLogOut'])->name('spedytor.logout');
 
     Route::get('spedytor/order/history',[DispatcherController::class,'historyOrder'])->name('spedytor/order/history');
 });
@@ -83,6 +84,8 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
     Route::get('driver/order/{id}/in-progress',[DriverController::class,'InProgressOrderDetal'])->name('driver.order.in_progress_detal');
     Route::post('driver/order/{id}/in-progress', [DriverController::class, 'InProgressOrderDetal'])->name('driver.order.in_progress_detal');
     Route::get('driver/order/history',[DriverController::class,'HistoryDriverOrder'])->name('driver.order.history');
+    Route::get('driver/logout',[DriverController::class, 'DriverLogOut'])->name('driver.logout');
+
 });
 
 Route::get('admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');

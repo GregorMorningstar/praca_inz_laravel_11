@@ -6,11 +6,21 @@ use App\Models\DriverTruck;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class DispatcherController extends Controller
 {
 
+
+    public function DispatcherLogOut(Request $request)
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
 
     public function DispatcherDashboard()
     {
