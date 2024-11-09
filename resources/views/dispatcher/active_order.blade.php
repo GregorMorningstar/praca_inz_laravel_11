@@ -32,9 +32,9 @@
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->place_of_loading }}</td>
-                            <td>{{ $item->loading_date->format('Y-m-d') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->loading_date)->format('Y-m-d') }}</td>
                             <td>{{ $item->place_of_delivery }}</td>
-                            <td>{{ $item->delivery_date->format('Y-m-d') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->delivery_date)->format('Y-m-d') }}</td>
                             <td>{{ $item->cargo_weight }} kg</td>
                             <td>{{ $item->cargo_length }} m</td>
                             <td>{{ $item->mileage }} km</td>

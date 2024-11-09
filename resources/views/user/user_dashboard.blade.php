@@ -34,6 +34,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{asset('assets/css/demo2/style.css')}}">
     <!-- End layout styles -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}"/>
 </head>

@@ -25,8 +25,7 @@ class UserController extends Controller
         return redirect('/login');
     }
     public function AddNewOrder(Request $request)
-    {
-        // Walidacja danych wejściowych
+    {        // Walidacja danych wejściowych
         $validatedData = $request->validate([
             'place_of_loading' => 'required|string',
             'loading_date' => 'required|date',
@@ -37,31 +36,25 @@ class UserController extends Controller
             'mileage' => 'required|integer',
             'cost' => 'required|numeric',
             'status' => 'nullable|in:pending,in_progress,canceled,completed', // Walidacja statusu
-
         ]);
         // Jeśli status nie jest podany, ustaw domyślną wartość
         $validatedData['status'] = $validatedData['status'] ?? 'pending';
-
         // Dodanie ID aktualnego użytkownika do danych
         $validatedData['user_id'] = auth()->id();
-
-
         // Utworzenie nowego zamówienia
         $order = Order::create($validatedData);
 
         return redirect()->route('user/dashboard')->with('success', 'Order added successfully!');
 
     }
-
-public function CreateNewOrder()
+    public function CreateNewOrder()
 {
     return view('user.create_new_order');
 }
-
     public function AllOrder()
     {
         // Pobieramy wszystkie zlecenia
-        $orders = Order::paginate(1);
+        $orders = Order::paginate(5);
 //dd($orders);
         // Przekazujemy zmienną 'orders' do widoku
         return view('user.all_order', compact('orders'));
@@ -72,8 +65,6 @@ public function CreateNewOrder()
 
         return view('user.user_order', compact('orders'));
     }
-
-
     public function completedOrders()
     {
         $completedOrders = Order::where('user_id', Auth::id())
@@ -90,4 +81,10 @@ public function CreateNewOrder()
         return view('user.in_progress_orders', compact('in_progresOrders'));
     }
 
+    public function UserCalendar()
+    {
+        $orders = Order::where('user_id', Auth::id())->get();
+
+        return view('user.user_calendar',compact('orders'));
+    }
 }

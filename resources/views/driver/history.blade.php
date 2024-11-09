@@ -34,10 +34,11 @@
                         <tr>
                             <td>{{ $order->order->id }}</td>
                             <td>{{ $order->order->place_of_loading }}</td>
-                            <td>{{ $order->order->loading_date->format('Y-m-d') }}</td>
+                            <td>{{ optional($order->order->loading_date)->format('Y-m-d') }}</td>
                             <td>{{ $order->order->place_of_delivery }}</td>
-                            <td>{{ $order->order->delivery_date->format('Y-m-d') }}</td>
-                            <td>{{  $order->started_driving_at }}</td>
+                            <td>{{ optional($order->order->delivery_date)->format('Y-m-d') }}</td>
+                            <td>{{ optional($order->started_driving_at)->format('Y-m-d H:i:s') }}</td>
+
                             <td>
                               {{$order->ended_driving_at}}
                             </td>

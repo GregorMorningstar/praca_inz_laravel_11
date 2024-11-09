@@ -1,14 +1,11 @@
 <?php
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 class Order extends Model
 {
     use HasFactory;
     protected $dates = ['loading_date', 'delivery_date'];
-
     protected $fillable = [
         'place_of_loading',
         'loading_date',
@@ -20,19 +17,10 @@ class Order extends Model
         'cost',
         'user_id',
     ];
-    protected $casts = [
-        'loading_date' => 'datetime',
-        'delivery_date' => 'datetime',
-    ];
-    // Definiowanie relacji z modelem User
+   // Definiowanie relacji z modelem User
     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
+    { return $this->belongsTo(User::class); }
     //relacja z tabela lacznikowa
     public function driverTrucks()
-    {
-        return $this->hasMany(DriverTruck::class);
-    }
+    { return $this->hasMany(DriverTruck::class); }
 }

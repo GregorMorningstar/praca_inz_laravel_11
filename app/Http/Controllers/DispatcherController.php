@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class DispatcherController extends Controller
 {
-
-
     public function DispatcherLogOut(Request $request)
     {
         Auth::guard('web')->logout();
@@ -21,7 +19,6 @@ class DispatcherController extends Controller
 
         return redirect('/login');
     }
-
     public function DispatcherDashboard()
     {
         $order = Order::where('status', 'pending')
@@ -30,18 +27,14 @@ class DispatcherController extends Controller
         //dd($order);
         return view('dispatcher.index', compact('order'));
     }
-
     public function AssingOrder($id)
     {
         $actualyOrder = Order::with('user')->findOrFail($id);
         $drivers = User::where('role', 'driver')->whereHas('truck')->get(); // zakładając, że relacja nazywa się 'truck'
-
         return view('dispatcher.assing_order', compact('actualyOrder','drivers'));
     }
-
     public function OrderCancel($id)
     {
-
         $cancelOrder = Order::findOrFail($id);
         $cancelOrder->status = 'canceled';
         $cancelOrder->save();

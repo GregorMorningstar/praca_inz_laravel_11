@@ -10,9 +10,9 @@
         <div class="order-details">
             <h5>ID Zlecenia: {{ $actualyOrder->id }}</h5>
             <p><strong>Miejsce załadunku:</strong> {{ $actualyOrder->place_of_loading }}</p>
-            <p><strong>Data załadunku:</strong> {{ $actualyOrder->loading_date->format('d-m-Y') }}</p>
+            <p><strong>Data załadunku:</strong> {{ \Carbon\Carbon::parse($actualyOrder->loading_date)->format('d-m-Y') }}</p>
             <p><strong>Miejsce dostawy:</strong> {{ $actualyOrder->place_of_delivery }}</p>
-            <p><strong>Data dostawy:</strong> {{ $actualyOrder->delivery_date->format('d-m-Y') }}</p>
+            <p><strong>Data dostawy:</strong> {{ \Carbon\Carbon::parse($actualyOrder->delivery_date)->format('d-m-Y') }}</p>
             <p><strong>Waga towaru:</strong> {{ $actualyOrder->cargo_weight }} kg</p>
             <p><strong>Długość towaru:</strong> {{ $actualyOrder->cargo_length }} m</p>
             <p><strong>Ilość kilometrów:</strong> {{ $actualyOrder->mileage }}</p>

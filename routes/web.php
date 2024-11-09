@@ -71,7 +71,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('user/my-order',[UserController::class,'My_order'])->name('user/my-order');
     Route::get('/user/order/completed', [UserController::class, 'completedOrders'])->name('user.order.completed');
     Route::get('/user/order/in_progress', [UserController::class, 'in_progresOrders'])->name('user/order/in_progress');
-
+    Route::get('user/calendar',[UserController::class,'UserCalendar'])->name('user.calendar');
 
 });
 

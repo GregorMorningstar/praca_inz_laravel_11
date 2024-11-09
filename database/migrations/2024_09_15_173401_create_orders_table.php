@@ -4,13 +4,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class CreateOrdersTable extends Migration
-{
-    /**
-     * Run the migrations.
+{    /** Run the migrations.
      *
      * @return void
-     */
-    public function up()
+     */    public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
@@ -25,12 +22,10 @@ class CreateOrdersTable extends Migration
             $table->enum('status', ['pending', 'in_progress', 'canceled', 'completed'])->default('pending'); // Status zlecenia
             $table->unsignedBigInteger('user_id'); // Klucz obcy do tabeli users
             $table->timestamps();
-
             // Definiowanie klucza obcego
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      *

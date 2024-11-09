@@ -37,7 +37,7 @@
 
         </div>
         <div class="col-12 ">
-            <h1 class="text-primary text-center">Aktywne zlecenia</h1>
+            <h1 class="text-primary text-center">Nowe zlecenia</h1>
             <h4>Zlecenia użytkownika</h4>
             @if ($driverTrucks->isEmpty())
                 <p>Brak zleceń dla tego użytkownika.</p>
@@ -58,9 +58,9 @@
                         <tr>
                             <td>{{ $order->order->id }}</td>
                             <td>{{ $order->order->place_of_loading }}</td>
-                            <td>{{ $order->order->loading_date->format('Y-m-d') }}</td>
+                            <td>{{ optional($order->order->loading_date)->format('Y-m-d') }}</td>
                             <td>{{ $order->order->place_of_delivery }}</td>
-                            <td>{{ $order->order->delivery_date->format('Y-m-d') }}</td>
+                            <td>{{ optional($order->order->delivery_date)->format('Y-m-d') }}</td>
                             <td>
                                 <form action="{{ route('driver/order/{id}/get', ['id' => $order->order->id]) }}" method="GET">
                                     @csrf

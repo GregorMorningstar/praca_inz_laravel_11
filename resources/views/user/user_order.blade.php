@@ -7,7 +7,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Wszystkie moje zlecenia Zlecenia</h5>
+                                <h5>Wszystkie moje zlecenia</h5>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered">
                                         <thead>

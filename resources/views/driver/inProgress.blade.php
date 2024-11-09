@@ -34,18 +34,19 @@
                         <tr>
                             <td>{{ $order->order->id }}</td>
                             <td>{{ $order->order->place_of_loading }}</td>
-                            <td>{{ $order->order->loading_date->format('Y-m-d') }}</td>
+                            <td>{{ optional($order->order->loading_date)->format('Y-m-d') }}</td>
                             <td>{{ $order->order->place_of_delivery }}</td>
-                            <td>{{ $order->order->delivery_date->format('Y-m-d') }}</td>
-                            <td>{{  $order->started_driving_at }}</td>
+                            <td>{{ optional($order->order->delivery_date)->format('Y-m-d') }}</td>
+                            <td>{{ optional($order->started_driving_at)->format('Y-m-d H:i:s') }}</td>
                             <td>
-                                <form action="{{ route('driver.order.in_progress_detal', ['id' => $order->id]) }}" method="POST">
+
+                            <form action="{{ route('driver.order.in_progress_detal', ['id' => $order->id]) }}" method="POST">
                                     @csrf
                                     <div class="form-group mr-2 text-center">
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
 
                                         <label for="mileage" class="sr-only">Stan Licznika:</label>
-                                        <input type="number" name="mileage" id="mileage" class="form-control" placeholder="Kilometry" required>
+                                        <input type="number" name="mileage" id="mileage" class="form-control"  value="{{ $order->current_mileage }}" placeholder="Kilometry" required>
                                     </div>
                                     <button type="submit" class="btn btn-info btn-sm align-center">
                                         <i class="fas fa-truck"></i>

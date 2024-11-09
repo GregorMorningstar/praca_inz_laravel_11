@@ -3,7 +3,7 @@
     <div class="page-content">
 <h4 class="text-center">Ostatnio dodane zlecenia</h4>
         <div class="container mt-4"> <!-- Dodaj margin-top do kontenera -->
-            <h1>Pending Orders</h1>
+            <h1>Oczekujące zadania</h1>
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -32,9 +32,9 @@
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->place_of_loading }}</td>
-                            <td>{{ $item->loading_date->format('Y-m-d') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->loading_date)->format('Y-m-d') }}</td>
                             <td>{{ $item->place_of_delivery }}</td>
-                            <td>{{ $item->delivery_date->format('Y-m-d') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->delivery_date)->format('Y-m-d') }}</td>
                             <td>{{ $item->cargo_weight }} kg</td>
                             <td>{{ $item->cargo_length }} m</td>
                             <td>{{ $item->mileage }} km</td>
