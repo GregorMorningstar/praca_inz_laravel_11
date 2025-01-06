@@ -8,7 +8,36 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5>Zlecenia przyjęte do realizacji</h5>
+                                <div class="d-flex justify-content-center">
+                                    {{ $in_progresOrders->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}
+                                </div>
+                                <form method="GET" action="{{ route('user/order/in_progress') }}">
+                                    <div class="row mb-4">
+                                        <div class="col-md-2">
+                                            <input type="text" name="place_of_loading" class="form-control" placeholder="Miejsce załadunku" value="{{ request('place_of_loading') }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="date" name="loading_date" class="form-control" value="{{ request('loading_date') }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" name="place_of_delivery" class="form-control" placeholder="Miejsce dostawy" value="{{ request('place_of_delivery') }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="date" name="delivery_date" class="form-control" value="{{ request('delivery_date') }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="number" name="cargo_weight" class="form-control" placeholder="Waga" value="{{ request('cargo_weight') }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select name="status" class="form-control">
+                                                <option value="">Status</option>
+                                                <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>W trakcie realizacji</option>
+                                                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Zakończone</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Filtruj</button>
+                                </form>
 
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered">
@@ -40,14 +69,13 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="9">Nie posiadasz jeszcze zleceń przyjetych do realizacji.</td>
+                                                <td colspan="9">Nie posiadasz jeszcze zleceń przyjętych do realizacji.</td>
                                             </tr>
                                         @endforelse
                                         </tbody>
                                     </table>
-                                    <div class="d-flex justify-content-center">
-                                        {{ $in_progresOrders->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}
-                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -55,4 +83,6 @@
                 </div>
             </div>
         </div>
+    </div>
+
 @endsection
