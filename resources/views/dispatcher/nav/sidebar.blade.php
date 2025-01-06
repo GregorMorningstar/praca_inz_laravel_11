@@ -54,30 +54,7 @@
                         <span class="link-title">Calendar</span>
                     </a>
                 </li>
-                <li class="nav-item nav-category">Kierowcy</li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#advancedUI" role="button" aria-expanded="false" aria-controls="advancedUI">
-                        <i class="link-icon" data-feather="user"></i>
-                        <span class="link-title">Zlecenia Kierowców</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
-                    </a>
-                    <div class="collapse" id="advancedUI">
-                        <ul class="nav sub-menu">
-                            <li class="nav-item">
-                                <a href="pages/advanced-ui/cropper.html" class="nav-link">Przypisane zlecenia</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Status zlecenia</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/advanced-ui/sortablejs.html" class="nav-link">Zmiana kierowcy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/advanced-ui/sweet-alert.html" class="nav-link">Wszystcy Pracownicy</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+
             </ul>
                       </ul>
         </div>
