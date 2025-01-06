@@ -12,6 +12,27 @@
                 {{ session('error') }}
             </div>
         @endif
+            <form method="GET" action="{{ route('users/list') }}" class="mb-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="text" name="name" class="form-control" placeholder="Imię" value="{{ request('name') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="username" class="form-control" placeholder="Nazwa użytkownika" value="{{ request('username') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="email" name="email" class="form-control" placeholder="Email" value="{{ request('email') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="phone" class="form-control" placeholder="Telefon" value="{{ request('phone') }}">
+                    </div>
+                    <div class="row mt-3 justify-content-center">
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary btn-block search-form">Filtruj</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
         <div class="d-flex justify-content-center">
             {{ $users->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}

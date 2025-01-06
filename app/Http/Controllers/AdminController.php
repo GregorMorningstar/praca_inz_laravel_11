@@ -18,7 +18,7 @@ class AdminController extends Controller
         $users = User::whereIn('role', ['driver', 'dispatcher'])->paginate(10);
 
 //dd($pendingOrdersCount);
-        return view('admin.index', compact('pendingOrdersCount','userCount','carCount','users'));
+        return view('admin.index', compact('pendingOrdersCount', 'userCount', 'carCount', 'users'));
     }
 
     public function AdminLogOut(Request $request)
@@ -36,9 +36,32 @@ class AdminController extends Controller
         return view('admin.add_car');
     }
 
-    public function AdminListCar()
+    public function AdminListCar(Request $request)
     {
-        $trucks = Truck::with('driver')->paginate(5);
+        $query = Truck::with('driver');
+
+        if ($request->filled('license_plate')) {
+            $query->where('license_plate', 'LIKE', '%' . $request->license_plate . '%');
+        }
+
+        if ($request->filled('brand')) {
+            $query->where('brand', 'LIKE', '%' . $request->brand . '%');
+        }
+
+        if ($request->filled('color')) {
+            $query->where('color', 'LIKE', '%' . $request->color . '%');
+        }
+
+        if ($request->filled('length')) {
+            $query->where('length', '>=', $request->length); // Filtr dokładny dla długości
+        }
+
+        if ($request->filled('height')) {
+            $query->where('height', '>=', $request->height); // Filtr dokładny dla wysokości
+        }
+
+        $trucks = $query->paginate(5);
+
         return view('admin.car_list', compact('trucks'));
     }
 
@@ -70,25 +93,63 @@ class AdminController extends Controller
     }
 
     // Methods related to dispatchers
-    public function dispatcher_list()
+    public function dispatcher_list(Request $request)
     {
-        $dispatchers = User::where('role', 'dispatcher')->paginate(5);
+
+        $query = User::where('role', 'dispatcher');
+        if ($request->filled('name')) {
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('username')) {
+            $query->where('username', 'LIKE', '%' . $request->username . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'LIKE', '%' . $request->email . '%');
+        }
+
+        $dispatchers = $query->paginate(5);
+
+
         return view('admin.dispatcher_list', compact('dispatchers'));
     }
 
     // Methods related to drivers
-    public function driver_list()
+    public function driver_list(Request $request)
     {
-        // Pobierz kierowców wraz z ich przypisanymi samochodami
-        $drivers = User::where('role', 'driver')->with('truck')->paginate(5);
+        $name = $request->input('name');
+        $username = $request->input('username');
+        $email = $request->input('email');
+        $licensePlate = $request->input('license_plate');
+
+        $drivers = User::where('role', 'driver')
+            ->when($name, function ($query) use ($name) {
+                return $query->where('name', 'like', "%$name%");
+            })
+            ->when($username, function ($query) use ($username) {
+                return $query->where('username', 'like', "%$username%");
+            })
+            ->when($email, function ($query) use ($email) {
+                return $query->where('email', 'like', "%$email%");
+            })
+            ->when($licensePlate, function ($query) use ($licensePlate) {
+                return $query->whereHas('truck', function ($query) use ($licensePlate) {
+                    $query->where('license_plate', 'like', "%$licensePlate%");
+                });
+            })
+            ->with('truck')
+            ->paginate(5);
+
         return view('admin.driver_list', compact('drivers'));
     }
+
 
     public function carAssing($id)
     {
         $driver = User::findOrFail($id);
         $activeCars = Truck::where('status', 'inactive')->get();
-               return view('admin.assing_car', compact('driver', 'activeCars'));
+        return view('admin.assing_car', compact('driver', 'activeCars'));
     }
 
     public function storeCar(Request $request, $id)
@@ -98,7 +159,7 @@ class AdminController extends Controller
         ]);
 
         $driver = User::findOrFail($id);
-        $truck = Truck::findOrFail($request->car_id); // Use findOrFail for better error handling
+        $truck = Truck::findOrFail($request->car_id);
         $truck->status = 'active';
         $truck->driver_id = $driver->id;
         $truck->save();
@@ -107,11 +168,30 @@ class AdminController extends Controller
     }
 
     // Methods related to users
-    public function user_list()
+    public function user_list(Request $request)
     {
-        $users = User::where('role', 'user')->paginate(5);
+        $name = $request->input('name');
+        $username = $request->input('username');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+
+        $users = User::query()
+            ->when($name, function ($query) use ($name) {
+                return $query->where('name', 'like', "%$name%");
+            })
+            ->when($username, function ($query) use ($username) {
+                return $query->where('username', 'like', "%$username%");
+            })
+            ->when($email, function ($query) use ($email) {
+                return $query->where('email', 'like', "%$email%");
+            })
+            ->when($phone, function ($query) use ($phone) {
+                return $query->where('phone', 'like', "%$phone%");
+            })
+            ->paginate(10);
         return view('admin.user_list', compact('users'));
     }
+
     public function destroyUser($id)
     {
         $user = User::find($id);
@@ -128,19 +208,20 @@ class AdminController extends Controller
     public function role_edit()
     {
         $user = User::paginate(5);
-     //   dd($user);
+        //   dd($user);
         return view('admin.role_edit', compact('user'));
     }
+
     public function updateRole(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         // Zaktualizuj rolę użytkownika
         $user->role = $request->role;
-       // dd($user);
+        // dd($user);
         $user->save();
 
-        return redirect()->back()->with('success', 'Rola użytkownika '.$user->username.'została zaktualizowana na '.$user->role.' ');
+        return redirect()->back()->with('success', 'Rola użytkownika ' . $user->username . 'została zaktualizowana na ' . $user->role . ' ');
     }
 
 

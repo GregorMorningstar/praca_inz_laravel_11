@@ -1,6 +1,32 @@
 @extends('admin.admin_dashboard')
 @section('driver_list')
     <div class="page-content">
+        <form method="GET" action="{{ route('driver/list') }}" class="mb-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" name="name" class="form-control"
+                           placeholder="Imię" value="{{ request('name') }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="username" class="form-control"
+                           placeholder="Nazwa użytkownika" value="{{ request('username') }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="email" name="email" class="form-control"
+                           placeholder="Email" value="{{ request('email') }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="license_plate" class="form-control"
+                           placeholder="Nr Rej" value="{{ request('license_plate') }}">
+                </div>
+            </div>
+            <div class="row mt-3 justify-content-center">
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary btn-block search-form">Filtruj</button>
+                </div>
+            </div>
+        </form>
+
         <div class="d-flex justify-content-center">
             {{ $drivers->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}
         </div>
