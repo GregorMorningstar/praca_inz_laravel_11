@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('license_plate')->unique();   // Numer rejestracyjny
             $table->year('production_year');              // Rok produkcji
             $table->string('brand');                     // Marka
-            $table->integer('mileage');                  // Przebieg
+            $table->bigInteger('mileage');                  // Przebieg
             $table->string('color');                     // Kolor
             $table->decimal('length', 8, 2);             // Długość
             $table->decimal('height', 8, 2);             // Wysokość

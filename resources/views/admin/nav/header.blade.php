@@ -1,7 +1,7 @@
 <!-- partial:partials/_navbar.html -->
 <nav class="navbar">
     <div>
-        <h1 class=" text-xs pl-4">     Admin  {{ Auth::user()->name }}</h1> <!-- Wyświetla nazwę zalogowanego użytkownika -->
+        <h1 class=" text-xs pl-4">     Administrator:   {{ Auth::user()->name }}</h1> <!-- Wyświetla nazwę zalogowanego użytkownika -->
     </div>
 
     <div>

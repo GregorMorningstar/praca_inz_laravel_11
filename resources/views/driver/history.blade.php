@@ -22,11 +22,9 @@
                     <tr>
                         <th>ID</th>
                         <th>Miejsce załadunku</th>
-                        <th>Data załadunku</th>
                         <th>Miejsce dostawy</th>
-                        <th>Data dostawy</th>
-                        <th>Rozpoczecie dostawy</th>
                         <th>Data Dostawy</th>
+                        <th>Ilość kilometrów</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,14 +32,10 @@
                         <tr>
                             <td>{{ $order->order->id }}</td>
                             <td>{{ $order->order->place_of_loading }}</td>
-                            <td>{{ optional($order->order->loading_date)->format('Y-m-d') }}</td>
                             <td>{{ $order->order->place_of_delivery }}</td>
-                            <td>{{ optional($order->order->delivery_date)->format('Y-m-d') }}</td>
-                            <td>{{ optional($order->started_driving_at)->format('Y-m-d H:i:s') }}</td>
+                            <td>{{ $order->ended_driving_at ? \Carbon\Carbon::parse($order->ended_driving_at)->format('Y-m-d') : 'Brak danych' }}</td>
+                            <td>{{ ($order->ending_mileage) -  ($order->starting_mileage) . '  KM'}}</td>
 
-                            <td>
-                              {{$order->ended_driving_at}}
-                            </td>
 
                         </tr>
                     @endforeach

@@ -7,8 +7,24 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        $role = Auth::user()->role;
+
+        // Przekierowanie na podstawie roli do określonego URL
+        $url = match ($role) {
+            'admin' => url('/admin/dashboard'),
+            'dispatcher' => url('/dispatcher/dashboard'),
+            'driver' => url('/driver/dashboard'),
+            'user' => url('/user/dashboard'),
+            default => url('/login'), // Domyślny URL w razie braku roli
+        };
+
+        return redirect($url); // Zwracamy przekierowanie
+    }
+
+    return redirect('/login'); // Przekierowanie dla niezalogowanych
 });
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -82,9 +98,16 @@ Route::middleware(['auth', 'role:driver'])->group(function () {
     Route::post('driver/order/{id}/accept',[DriverController::class,'AcceptOrder'])->name('driver.order.accept');
     Route::get('driver/order/in-progress',[DriverController::class,'InProgressOrder'])->name('driver.order.in_progress');
     Route::get('driver/order/{id}/in-progress',[DriverController::class,'InProgressOrderDetal'])->name('driver.order.in_progress_detal');
-    Route::post('driver/order/{id}/in-progress', [DriverController::class, 'InProgressOrderDetal'])->name('driver.order.in_progress_detal');
+    Route::get('driver/order/{id}/in-progress', [DriverController::class, 'InProgressOrderDetalFinish'])->name('driver.order.in_progress_order_detal_finish');
     Route::get('driver/order/history',[DriverController::class,'HistoryDriverOrder'])->name('driver.order.history');
     Route::get('driver/logout',[DriverController::class, 'DriverLogOut'])->name('driver.logout');
+    // Trasa dla rozpoczęcia jazdy
+    Route::post('driver/order/{id}/in-progress', [DriverController::class, 'InProgressOrderDetal'])
+        ->name('driver.order.in_progress_detal');
+
+// Trasa dla zakończenia jazdy
+    Route::post('driver/order/{id}/in-progress/finish', [DriverController::class, 'InProgressOrderDetalFinish'])
+        ->name('driver.order.in_progress_order_detal_finish');
 
 });
 

@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->date('delivery_date'); // Data dostawy
             $table->decimal('cargo_weight', 8, 2); // Waga towaru
             $table->decimal('cargo_length', 8, 2); // Długość towaru
-            $table->integer('mileage'); // Ilość kilometrów
+            $table->bigInteger('mileage'); // Ilość kilometrów
             $table->decimal('cost', 10, 2); // Koszt
             $table->enum('status', ['pending', 'in_progress', 'canceled', 'completed'])->default('pending'); // Status zlecenia
             $table->unsignedBigInteger('user_id'); // Klucz obcy do tabeli users

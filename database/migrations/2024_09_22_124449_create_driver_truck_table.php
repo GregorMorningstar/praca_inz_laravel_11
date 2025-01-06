@@ -14,8 +14,8 @@ class CreateDriverTruckTable extends Migration
             $table->foreignId('order_id')->constrained()->onDelete('cascade'); // Klucz obcy do tabeli orders
             $table->date('started_driving_at')->nullable(); // Data rozpoczęcia jazdy
             $table->date('ended_driving_at')->nullable(); // Data zakończenia jazdy
-            $table->integer('starting_mileage')->nullable(); // Przebieg na start
-            $table->integer('ending_mileage')->nullable(); // Przebieg na koniec
+            $table->bigInteger('starting_mileage')->nullable(); // Przebieg na start
+            $table->bigInteger('ending_mileage')->nullable(); // Przebieg na koniec
             $table->float('fuel_consumed')->nullable(); // Ilość zużytego paliwa
             $table->timestamps();
         });

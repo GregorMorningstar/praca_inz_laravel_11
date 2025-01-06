@@ -25,7 +25,6 @@
                         <th>Data załadunku</th>
                         <th>Miejsce dostawy</th>
                         <th>Data dostawy</th>
-                        <th>Rozpoczecie dostawy</th>
                         <th>Akcje</th>
                     </tr>
                     </thead>
@@ -34,24 +33,33 @@
                         <tr>
                             <td>{{ $order->order->id }}</td>
                             <td>{{ $order->order->place_of_loading }}</td>
-                            <td>{{ optional($order->order->loading_date)->format('Y-m-d') }}</td>
+                            <td>{{ $order->order->loading_date ?? 'Brak daty rozładunku' }}</td>
                             <td>{{ $order->order->place_of_delivery }}</td>
-                            <td>{{ optional($order->order->delivery_date)->format('Y-m-d') }}</td>
-                            <td>{{ optional($order->started_driving_at)->format('Y-m-d H:i:s') }}</td>
+                            <td>{{ $order->order->delivery_date ?? 'Brak daty rozładunku' }}</td>
                             <td>
 
-                            <form action="{{ route('driver.order.in_progress_detal', ['id' => $order->id]) }}" method="POST">
-                                    @csrf
-                                    <div class="form-group mr-2 text-center">
-                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                @if (is_null($order->starting_mileage))
+                                    <form action="{{ route('driver.order.in_progress_detal', ['id' => $order->id]) }}" method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="ending_mileage">Wprowadź stan licznika:</label>
+                                            <input type="number" name="start_mileage" id="start_mileage" placeholder="{{ $order->truck->mileage }}"
+                                                   class="form-control" required>
+                                        </div>
+                                        <button class="btn btn-primary">Rozpoczęto jazdę</button>
+                                    </form>
+                                @elseif ($order->starting_mileage)
+                                    <form action="{{ route('driver.order.in_progress_order_detal_finish', ['id' => $order->id]) }}" method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="ending_mileage">Wprowadź końcowy stan licznika:</label>
+                                            <input type="number" name="ending_mileage" id="ending_mileage" placeholder="{{ $order->truck->mileage }}"
+                                                   class="form-control" required>
+                                        </div>
+                                        <button class="btn btn-success">Jazda zakończona</button>
+                                    </form>
+                                @endif
 
-                                        <label for="mileage" class="sr-only">Stan Licznika:</label>
-                                        <input type="number" name="mileage" id="mileage" class="form-control"  value="{{ $order->current_mileage }}" placeholder="Kilometry" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-info btn-sm align-center">
-                                        <i class="fas fa-truck"></i>
-                                    </button>
-                                </form>
                             </td>
 
                         </tr>

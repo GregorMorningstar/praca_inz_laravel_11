@@ -64,7 +64,7 @@ class DriverController extends Controller
 
         $driverTrucks = DriverTruck::where('truck_id', $truckId)
             ->whereNotNull('started_driving_at')
-            ->whereNull('ending_mileage')
+            ->whereNull('ended_driving_at')
             ->with('order', 'user', 'truck')
             ->get();
 //dd($driverTrucks);
@@ -74,35 +74,64 @@ class DriverController extends Controller
 
     public function InProgressOrderDetal($id, Request $request)
     {
-        $orderId = $request->input('order_id');
 
-        $currentOrder = DriverTruck::where('id', $orderId)
+        $startMileage = $request->input('start_mileage');
+        $currentOrder = DriverTruck::where('id', $id)
             ->with('order', 'user', 'truck')
             ->firstOrFail();
-
         $validatedData = $request->validate([
-            'mileage' => 'required|numeric|min:0',
+            'start_mileage' => 'required|numeric|min:0',
         ]);
+        if ($startMileage < 0 || $validatedData['start_mileage'] < $currentOrder->truck->mileage) {
+            return redirect()->back()->with('error', 'Kilometry muszą być większe od 0 i nie mogą być mniejsze niż stan licznika.');
+        }
+        $currentOrder->started_driving_at = now();
+        $currentOrder->starting_mileage = $validatedData['start_mileage'];
+        $currentOrder->save();
 
-        $distans = $request->input('mileage');
-        if ($distans < 0 || $validatedData['mileage'] < $currentOrder->truck->mileage) {
+        $truck = Truck::findOrFail($currentOrder->truck->id);
+        $truck->mileage = $validatedData['start_mileage'];
+        $truck->save();
+
+
+
+        return redirect()->back()->with('success', 'Zlecenie ukończone.');
+}
+    public function InProgressOrderDetalFinish($id, Request $request)
+    {
+        $endingMileage = $request->input('ending_mileage');
+        $currentOrder = DriverTruck::where('id', $id)
+            ->with('order', 'user', 'truck')
+            ->firstOrFail();
+        $validatedData = $request->validate([
+            'ending_mileage' => 'required|numeric|min:0',
+        ]);
+        if ($endingMileage < 0 || $validatedData['ending_mileage'] < $currentOrder->truck->mileage) {
             return redirect()->back()->with('error', 'Kilometry muszą być większe od 0 i nie mogą być mniejsze niż stan licznika.');
         }
         $currentOrder->ended_driving_at = now();
-        $currentOrder->ending_mileage = $validatedData['mileage'];
-       // dd($currentOrder);
+        $currentOrder->ending_mileage = $validatedData['ending_mileage'];
         $currentOrder->save();
 
+        $truck = Truck::findOrFail($currentOrder->truck->id);
+        $truck->mileage = $validatedData['ending_mileage'];
+        $truck->save();
+
+
+
+        return redirect()->back()->with('success', 'Zlecenie ukończone.');
+
+        $truck = Truck::findOrFail($currentOrder->truck->id);
+        $truck->mileage = $validatedData['ending_mileage'];
+        $truck->save();
         $orderID = $currentOrder->order->id;
         $userOrder = Order::findOrFail($orderID);
         $userOrder->status = 'completed';
         $userOrder->save();
 
-        $truck = Truck::findOrFail($currentOrder->truck->id);
-        $truck->mileage = $validatedData['mileage'];
-        $truck->save();
+
         return redirect()->back()->with('success', 'Zlecenie ukończone.');
-}
+    }
 
     public function HistoryDriverOrder()
     {
@@ -113,7 +142,8 @@ class DriverController extends Controller
             })
             ->with('user','truck','order')
             ->get();
-       // dd($driverTrucks);
+
+        //dd($driverTrucks);
         return view('driver.history',compact('driverTrucks'));
 }
 }

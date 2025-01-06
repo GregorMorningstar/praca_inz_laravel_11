@@ -21,7 +21,7 @@
             <table class="table table-hover mb-0">
                 <thead>
                 <tr>
-                    <th>Załądunek</th>
+                    <th>Załadunek</th>
                     <th>Data</th>
                     <th>Rozładunek</th>
                     <th>Data</th>
