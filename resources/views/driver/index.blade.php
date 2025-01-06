@@ -1,44 +1,70 @@
 @extends('driver.driver_dashboard')
+
 @section('driver')
     <div class="container mt-7">
-        <h1 class="text-center">Panel Kierowcy</h1>
 
         <div class="row text-center">
-            <!-- Div zajmujący 33% wysokości -->
-            <div class="col-12" style="height: 33vh; overflow-y: auto;">
+            <div class="col-md-6" style="height: 33vh; overflow-y: auto;">
                 <div class="mt-9">
                     <h4>Dane użytkownika</h4>
                     <ul class="list-unstyled">
                         <li><strong>Imię:</strong> {{ $user->name }}</li>
                         <li><strong>Email:</strong> {{ $user->email }}</li>
-                        <li><strong>Telefon:</strong> {{ $user->phone }}</li> <!-- Zakładając, że jest pole 'phone' w modelu User -->
+                        <li><strong>Telefon:</strong> {{ $user->phone }}</li>
                     </ul>
                 </div>
-                <span >Przypisany samochód</span>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Numer rejestracyjny</th>
-                        <th>Przebieg (km)</th>
-                        <th>Marka</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>{{ $user->truck->license_plate }}</td>
-                        <td>{{ $user->truck->mileage }}</td>
-                        <td>{{ $user->truck->brand }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            </div>
+            <div class="col-md-6" style="height: 33vh; overflow-y: auto;">
+                <div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Numer rejestracyjny</th>
+                            <th>Przebieg (km)</th>
+                            <th>Marka</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ $user->truck->license_plate }}</td>
+                            <td>{{ $user->truck->mileage }}</td>
+                            <td>{{ $user->truck->brand }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-12">
+
+            <div class="d-flex justify-content-center">
+                {{ $driverTrucks->links('vendor.pagination.bootstrap-4', ['class' => 'pagination pagination-sm']) }}
+            </div>            <!-- Filtracja -->
+            <div class="col-12 mb-4">
+                <form method="GET" action="{{ route('driver/dashboard') }}">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input type="text" name="place_of_loading" class="form-control" placeholder="Miejsce załadunku" value="{{ request('place_of_loading') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" name="loading_date" class="form-control" value="{{ request('loading_date') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="place_of_delivery" class="form-control" placeholder="Miejsce dostawy" value="{{ request('place_of_delivery') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" name="delivery_date" class="form-control" value="{{ request('delivery_date') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Filtruj</button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
-
-
-        </div>
-        <div class="col-12 ">
-            <h1 class="text-primary text-center">Nowe zlecenia</h1>
-            <h4>Zlecenia użytkownika</h4>
             @if ($driverTrucks->isEmpty())
                 <p>Brak zleceń dla tego użytkownika.</p>
             @else
@@ -73,8 +99,8 @@
                     @endforeach
                     </tbody>
                 </table>
+
             @endif
-        </div>
         </div>
     </div>
 @endsection

@@ -11,19 +11,46 @@ use Illuminate\Support\Facades\Auth;
 
 class DriverController extends Controller
 {
-  public function DriverDashboard()
-  {
+    public function DriverDashboard(Request $request)
+    {
+        $id = Auth::getUser();
+        $user = User::with('truck')->findOrFail($id->id);
 
-      $id = Auth::getUser();
-      $user = User::with('truck',)->findOrFail($id->id); // zakładając, że istnieje relacja truck w modelu User
+        $query = DriverTruck::whereNull('starting_mileage')
+            ->with('order', 'user', 'truck')
+            ->where('truck_id', $user->id);
 
-      $driverTrucks = DriverTruck::whereNull('starting_mileage')
-          ->with('order','user','truck')
-      ->where('truck_id', $user->id) // Filtruj po id kierowcy
-      ->get();
-//dd($driverTrucks);
-      return view('driver.index', compact('user','driverTrucks'));
-  }
+        // Filtracja
+        if ($request->has('place_of_loading') && $request->place_of_loading != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->where('place_of_loading', 'like', '%' . $request->place_of_loading . '%');
+            });
+        }
+
+        if ($request->has('loading_date') && $request->loading_date != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->whereDate('loading_date', '=', $request->loading_date);
+            });
+        }
+
+        if ($request->has('place_of_delivery') && $request->place_of_delivery != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->where('place_of_delivery', 'like', '%' . $request->place_of_delivery . '%');
+            });
+        }
+
+        if ($request->has('delivery_date') && $request->delivery_date != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->whereDate('delivery_date', '=', $request->delivery_date);
+            });
+        }
+
+        $driverTrucks = $query->paginate(10);
+
+        return view('driver.index', compact('user', 'driverTrucks'));
+    }
+
+
     public function DriverLogOut(Request $request)
     {
         Auth::guard('web')->logout();
@@ -58,19 +85,43 @@ class DriverController extends Controller
 
     }
 
-    public function InProgressOrder()
+    public function InProgressOrder(Request $request)
     {
         $truckId = Auth::id();
 
-        $driverTrucks = DriverTruck::where('truck_id', $truckId)
+        $query = DriverTruck::where('truck_id', $truckId)
             ->whereNotNull('started_driving_at')
             ->whereNull('ended_driving_at')
-            ->with('order', 'user', 'truck')
-            ->get();
+            ->with('order', 'user', 'truck');
 //dd($driverTrucks);
+        if ($request->has('place_of_loading') && $request->place_of_loading != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->where('place_of_loading', 'like', '%' . $request->place_of_loading . '%');
+            });
+        }
 
-        return view('driver.inProgress',compact('driverTrucks'));
-}
+        if ($request->has('loading_date') && $request->loading_date != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->whereDate('loading_date', '=', $request->loading_date);
+            });
+        }
+
+        if ($request->has('place_of_delivery') && $request->place_of_delivery != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->where('place_of_delivery', 'like', '%' . $request->place_of_delivery . '%');
+            });
+        }
+
+        if ($request->has('delivery_date') && $request->delivery_date != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->whereDate('delivery_date', '=', $request->delivery_date);
+            });
+        }
+
+        $driverTrucks = $query->paginate(10);
+
+        return view('driver.inProgress', compact('driverTrucks'));
+    }
 
     public function InProgressOrderDetal($id, Request $request)
     {
@@ -133,17 +184,37 @@ class DriverController extends Controller
         return redirect()->back()->with('success', 'Zlecenie ukończone.');
     }
 
-    public function HistoryDriverOrder()
+    public function HistoryDriverOrder(Request $request)
     {
         $truckId = Auth::id();
-        $driverTrucks = DriverTruck::where('truck_id', $truckId)
-            ->whereHas('order', function($query) {
+
+        $query = DriverTruck::where('truck_id', $truckId)
+            ->whereHas('order', function ($query) {
                 $query->where('status', 'completed');
             })
-            ->with('user','truck','order')
-            ->get();
+            ->with('user', 'truck', 'order');
 
-        //dd($driverTrucks);
-        return view('driver.history',compact('driverTrucks'));
-}
+        if ($request->has('place_of_loading') && $request->place_of_loading != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->where('place_of_loading', 'like', '%' . $request->place_of_loading . '%');
+            });
+        }
+
+        if ($request->has('place_of_delivery') && $request->place_of_delivery != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->where('place_of_delivery', 'like', '%' . $request->place_of_delivery . '%');
+            });
+        }
+
+        if ($request->has('delivery_date') && $request->delivery_date != '') {
+            $query->whereHas('order', function ($query) use ($request) {
+                $query->whereDate('delivery_date', '=', $request->delivery_date);
+            });
+        }
+
+        $driverTrucks = $query->paginate(10);
+
+        return view('driver.history', compact('driverTrucks'));
+    }
+
 }
