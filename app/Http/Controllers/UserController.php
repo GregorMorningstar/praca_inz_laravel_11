@@ -6,47 +6,39 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+
 class UserController extends Controller
 {
     public function UserDashboard(Request $request)
     {
+        $request->validate([
+            'place_of_loading' => 'nullable|string|max:255',
+            'loading_date' => 'nullable|date',
+            'place_of_delivery' => 'nullable|string|max:255',
+            'delivery_date' => 'nullable|date',
+            'username' => 'nullable|string|max:255',
+            'status' => 'nullable|in:pending,completed,canceled']);
+        $query = Order::query();
+
         $place_of_loading = $request->input('place_of_loading');
         $loading_date = $request->input('loading_date');
         $place_of_delivery = $request->input('place_of_delivery');
         $delivery_date = $request->input('delivery_date');
         $username = $request->input('username');
         $status = $request->input('status');
-
-        $query = Order::with('user');
-
         if ($place_of_loading) {
-            $query->where('place_of_loading', 'like', '%' . $place_of_loading . '%');
-        }
-
+            $query->where('place_of_loading', 'like', '%' . $place_of_loading . '%'); }
         if ($loading_date) {
-            $query->whereDate('loading_date', '=', Carbon::parse($loading_date)->format('Y-m-d'));
-        }
-
+            $query->whereDate('loading_date', '=', Carbon::parse($loading_date)->format('Y-m-d')); }
         if ($place_of_delivery) {
-            $query->where('place_of_delivery', 'like', '%' . $place_of_delivery . '%');
-        }
-
+            $query->where('place_of_delivery', 'like', '%' . $place_of_delivery . '%'); }
         if ($delivery_date) {
-            $query->whereDate('delivery_date', '=', Carbon::parse($delivery_date)->format('Y-m-d'));
-        }
-
+            $query->whereDate('delivery_date', '=', Carbon::parse($delivery_date)->format('Y-m-d')); }
         if ($username) {
             $query->whereHas('user', function ($query) use ($username) {
-                $query->where('username', 'like', '%' . $username . '%');
-            });
-        }
-
-        if ($status) {
-            $query->where('status', $status);
-        }
-
+                $query->where('username', 'like', '%' . $username . '%'); }); }
+        if ($status) { $query->where('status', $status); }
         $orders = $query->paginate(10);
-
         return view('user.index', compact('orders'));
     }
 
@@ -60,6 +52,7 @@ class UserController extends Controller
 
         return redirect('/login');
     }
+
     public function AddNewOrder(Request $request)
     {        // Walidacja danych wejściowych
         $validatedData = $request->validate([
@@ -83,10 +76,12 @@ class UserController extends Controller
         return redirect()->route('user/dashboard')->with('success', 'Order added successfully!');
 
     }
+
     public function CreateNewOrder()
-{
-    return view('user.create_new_order');
-}
+    {
+        return view('user.create_new_order');
+    }
+
     public function AllOrder(Request $request)
     {
         $place_of_loading = $request->input('place_of_loading');
@@ -255,6 +250,6 @@ class UserController extends Controller
     {
         $orders = Order::where('user_id', Auth::id())->get();
 
-        return view('user.user_calendar',compact('orders'));
+        return view('user.user_calendar', compact('orders'));
     }
 }
